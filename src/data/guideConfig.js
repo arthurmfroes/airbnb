@@ -5,9 +5,9 @@ export const guideConfig = {
     address: "R. Riachuelo, 341 - Centro, Santa Maria - RS",
   },
   categories: [
-    { id: 'turismo', name: 'Turismo', icon: 'Camera' },
-    { id: 'utilitarios', name: 'Utilitários', icon: 'ShoppingBag' },
     { id: 'restaurantes', name: 'Restaurantes & Cafés', icon: 'Utensils' },
+    { id: 'utilitarios', name: 'Utilitários', icon: 'ShoppingBag' },
+    { id: 'turismo', name: 'Turismo', icon: 'Camera' },
   ],
   places: [
     // Pontos Turísticos

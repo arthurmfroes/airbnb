@@ -32,7 +32,7 @@ function GuideContent() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <div className="header-top">
+        <div className="header-top-row">
           <h1>{guideConfig.property.name}</h1>
           <div className="mode-toggle">
             <button 
@@ -51,26 +51,30 @@ function GuideContent() {
             </button>
           </div>
         </div>
-        <div className="category-filters">
-          {guideConfig.categories.map(cat => {
-            const IconComponent = LucideIcons[cat.icon] || LucideIcons.MapPin;
-            return (
-              <button
-                key={cat.id}
-                onClick={() => updateCategory(cat.id)}
-                className={`filter-btn ${category === cat.id ? 'active' : ''}`}
-              >
-                <IconComponent size={16} style={{ marginRight: '8px' }} />
-                {cat.name}
+        
+        <div className="filter-row">
+          <div className="category-filters">
+            {guideConfig.categories.map(cat => {
+              const IconComponent = LucideIcons[cat.icon] || LucideIcons.MapPin;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => updateCategory(cat.id)}
+                  className={`filter-btn ${category === cat.id ? 'active' : ''}`}
+                >
+                  <IconComponent size={14} style={{ marginRight: '6px' }} />
+                  {cat.name}
+                </button>
+              );
+            })}
+            {(category || activeTag || toId) && (
+              <button onClick={() => navigate('/map')} className="filter-btn clear-btn">
+                <LucideIcons.X size={14} />
               </button>
-            );
-          })}
-          {(category || activeTag || toId) && (
-            <button onClick={() => navigate('/map')} className="filter-btn clear">
-              <LucideIcons.X size={16} />
-            </button>
-          )}
+            )}
+          </div>
         </div>
+
       </header>
 
       <main className="map-wrapper">

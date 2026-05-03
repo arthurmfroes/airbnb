@@ -8,89 +8,85 @@
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile browser bars */
   width: 100%;
+  overflow: hidden;
 }
 
 .app-header {
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1rem 0.5rem 1rem;
   background: white;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   z-index: 1000;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.header-top {
+.header-top-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
+  width: 100%;
 }
 
-.header-top h1 {
+.header-top-row h1 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   color: #ff385c;
   font-weight: 800;
   letter-spacing: -0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 65%;
 }
 
-.mode-toggle {
+.filter-row {
   display: flex;
-  gap: 2px;
-  background: #f0f0f0;
-  padding: 3px;
-  border-radius: 10px;
-}
-
-.mode-btn {
-  padding: 6px 10px;
-  border: none;
-  background: transparent;
-  border-radius: 7px;
-  cursor: pointer;
-  color: #717171;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mode-btn.active {
-  background: white;
-  color: #ff385c;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
 
 .category-filters {
   display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
 }
 
-.category-filters::-webkit-scrollbar { 
-  display: none;
+.clear-btn {
+  width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50% !important;
+  background: #f7f7f7 !important;
+  border: 1px solid #ddd !important;
+  color: #717171 !important;
+  transition: all 0.2s;
+  flex-shrink: 0;
 }
 
 .filter-btn {
-  padding: 0.6rem 1rem;
+  padding: 0.4rem 0.7rem;
   border: 1px solid #ddd;
   border-radius: 20px;
   background: white;
   color: #484848;
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.2s;
+  font-size: 12px;
+  font-weight: 600;
   display: flex;
   align-items: center;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.filter-btn:hover {
-  border-color: #222;
+  flex-shrink: 0;
+  transition: all 0.2s;
 }
 
 .filter-btn.active {
@@ -99,19 +95,93 @@
   border-color: #222;
 }
 
-.filter-btn.clear {
+.mode-toggle {
+  display: flex;
+  gap: 4px;
+  background: #f7f7f7;
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  flex-shrink: 0;
+}
+
+.mode-btn {
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #717171;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem;
-  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.mode-btn.active {
+  background: white;
+  color: #ff385c;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .map-wrapper {
   flex: 1;
   position: relative;
+  width: 100%;
+  height: 100%;
 }
 
+/* Floating Legend - Fixed for Mobile Clipping */
+.map-legend {
+  position: absolute;
+  bottom: 24px; 
+  left: 12px;
+  background: white;
+  padding: 10px;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-text {
+  font-size: 10px;
+  font-weight: 700;
+  color: #484848;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.pin-turismo { background-color: #FF5A5F; }
+.pin-utilitarios { background-color: #00A699; }
+.pin-restaurantes { background-color: #FC642D; }
+.pin-property { background-color: #222; }
+
+@media (max-width: 480px) {
+  .map-legend {
+    bottom: 30px; /* Higher for mobile browsers browser bars */
+    left: 10px;
+    padding: 8px 10px;
+  }
+}
+
+/* Leaflet Overrides */
 .leaflet-control-attribution {
   display: none !important;
 }
@@ -130,7 +200,7 @@
 
 @media (max-width: 480px) {
   .leaflet-popup-content {
-    width: 80vw !important;
+    width: 75vw !important;
   }
 }
 
@@ -193,12 +263,6 @@
   font-weight: 600;
   font-size: 11px;
   border: 1px solid #ddd;
-  transition: all 0.2s;
-}
-
-.btn-app:hover {
-  border-color: #222;
-  background: #f7f7f7;
 }
 
 .btn-app img {
@@ -206,7 +270,6 @@
   height: 24px;
 }
 
-/* Modern Category Labels (Tooltips) */
 .category-label {
   background: white !important;
   border: none !important;
@@ -229,65 +292,6 @@
   display: none !important;
 }
 
-/* Custom Marker Pins */
-.custom-pin {
-  width: 12px;
-  height: 12px;
-  border: 3px solid white;
-  border-radius: 50%;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-}
-
-.map-legend {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  background: white;
-  padding: 10px 14px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border: 1px solid #eee;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.legend-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.legend-text {
-  font-size: 11px;
-  font-weight: 700;
-  color: #484848;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.pin-turismo { background-color: #FF5A5F; }
-.pin-utilitarios { background-color: #00A699; }
-.pin-restaurantes { background-color: #FC642D; }
-.pin-property { background-color: #222; }
-
-@media (max-width: 480px) {
-  .map-legend {
-    bottom: 15px;
-    left: 15px;
-    padding: 8px 12px;
-  }
-}
-
-/* Property Legend Specific */
 .property-legend {
   background: #222 !important;
   color: white !important;
@@ -305,6 +309,6 @@
   display: none !important;
 }
 
-.leaflet-popup-tip-container {
-  display: none;
+.leaflet-routing-container {
+  display: none !important;
 }
