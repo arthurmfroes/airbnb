@@ -146,14 +146,20 @@ const MapComponent = ({ activeCategory, activeTag, mode, toId }) => {
           position={guideConfig.property.coords} 
           icon={createCustomPin('property')}
           eventHandlers={{ 
-            click: () => {
+            click: (e) => {
               const params = new URLSearchParams(searchParams);
               params.delete('to');
-              navigate({ pathname: location.pathname, search: params.toString() });
+              navigate(`/map/${activeCategory || ''}?${params.toString()}`);
             }
           }}
         >
-          <Tooltip permanent direction="top" offset={[0, -10]} className="property-legend">
+          <Tooltip 
+            permanent 
+            direction="top" 
+            offset={[0, -10]} 
+            className="property-legend"
+            interactive={true}
+          >
             Residencial Vivant
           </Tooltip>
           <Popup>
@@ -183,14 +189,26 @@ const MapComponent = ({ activeCategory, activeTag, mode, toId }) => {
               position={place.coords} 
               icon={createCustomPin(place.category)}
               eventHandlers={{ 
-                click: () => handleMarkerClick(place.id)
+                click: () => {
+                  const params = new URLSearchParams(searchParams);
+                  params.set('to', place.id);
+                  navigate(`/map/${activeCategory || ''}?${params.toString()}`);
+                }
               }}
             >
               <Tooltip 
                 permanent 
                 direction={direction} 
                 offset={offset} 
+                interactive={true}
                 className={`category-label ${isSelected ? 'selected' : ''}`}
+                eventHandlers={{
+                  click: (e) => {
+                    const params = new URLSearchParams(searchParams);
+                    params.set('to', place.id);
+                    navigate(`/map/${activeCategory || ''}?${params.toString()}`);
+                  }
+                }}
               >
                 <div style={{ color: style.color, display: 'flex', alignItems: 'center' }}>
                    {IconComponent && <IconComponent size={14} />}
