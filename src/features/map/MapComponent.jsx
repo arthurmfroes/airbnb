@@ -24,6 +24,7 @@ const CATEGORY_STYLES = {
   restaurantes: { color: '#FC642D', icon: 'Utensils' },
   utilitarios: { color: '#00A699', icon: 'ShoppingBag' },
   turismo: { color: '#FF5A5F', icon: 'Camera' },
+  saude: { color: '#4A90E2', icon: 'Hospital' },
   property: { color: '#222222', icon: 'Home' }
 };
 
