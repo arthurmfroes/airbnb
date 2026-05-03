@@ -32,7 +32,25 @@ function GuideContent() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>{guideConfig.property.name}</h1>
+        <div className="header-top">
+          <h1>{guideConfig.property.name}</h1>
+          <div className="mode-toggle">
+            <button 
+              onClick={() => updateMode('car')} 
+              className={`mode-btn ${mode === 'car' ? 'active' : ''}`}
+              title="Ir de Carro"
+            >
+              <LucideIcons.Car size={18} />
+            </button>
+            <button 
+              onClick={() => updateMode('walk')} 
+              className={`mode-btn ${mode === 'walk' ? 'active' : ''}`}
+              title="Ir a Pé"
+            >
+              <LucideIcons.Footprints size={18} />
+            </button>
+          </div>
+        </div>
         <div className="category-filters">
           {guideConfig.categories.map(cat => {
             const IconComponent = LucideIcons[cat.icon] || LucideIcons.MapPin;
