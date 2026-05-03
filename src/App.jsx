@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useParams, useSearchParams, useLocation } from 'react-router-dom';
 import MapComponent from './features/map/MapComponent';
+import Hub from './app/Hub';
 import { guideConfig } from './data/guideConfig';
 import * as LucideIcons from 'lucide-react';
 import './App.css';
@@ -13,6 +14,12 @@ function GuideContent() {
   const activeTag = searchParams.get('tag');
   const mode = searchParams.get('mode') || 'car';
   const toId = searchParams.get('to');
+  
+  const [routeInfo, setRouteInfo] = React.useState(null);
+
+  const selectedPlace = React.useMemo(() => 
+    toId ? guideConfig.places.find(p => p.id === parseInt(toId)) : null
+  , [toId]);
 
   const updateCategory = (categoryId) => {
     const params = new URLSearchParams(searchParams);
@@ -33,7 +40,7 @@ function GuideContent() {
     <div className="app-container">
       <header className="app-header">
         <div className="header-top-row">
-          <h1>{guideConfig.property.name}</h1>
+          <h1 onClick={() => navigate('/hub')} style={{ cursor: 'pointer' }}>{guideConfig.property.name}</h1>
           <div className="mode-toggle">
             <button 
               onClick={() => updateMode('car')} 
@@ -74,7 +81,6 @@ function GuideContent() {
             )}
           </div>
         </div>
-
       </header>
 
       <main className="map-wrapper">
@@ -83,8 +89,37 @@ function GuideContent() {
           activeTag={activeTag} 
           mode={mode} 
           toId={toId}
+          onRouteInfo={setRouteInfo}
         />
         
+        {/* Floating Info Dashboard */}
+        <div className={`info-dashboard ${selectedPlace ? 'active' : ''}`}>
+          {!selectedPlace ? (
+            <div className="dashboard-welcome">
+              <LucideIcons.Info size={18} className="text-blue-500" />
+              <span>Clique em um local para ver como chegar!</span>
+            </div>
+          ) : (
+            <div className="dashboard-content">
+              <div className="dashboard-main">
+                <div className="place-info">
+                  <span className="place-name">{selectedPlace.name}</span>
+                  <div className="route-metrics">
+                    <div className="metric">
+                      {mode === 'car' ? <LucideIcons.Car size={14} /> : <LucideIcons.Footprints size={14} />}
+                      <span>{routeInfo ? `${Math.round(routeInfo.time / 60)} min` : '--'}</span>
+                    </div>
+                    <div className="metric-divider"></div>
+                    <div className="metric">
+                      <span>{routeInfo ? `${(routeInfo.distance / 1000).toFixed(1)} km` : '--'}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Color Legend */}
         <div className="map-legend">
           {guideConfig.categories.map(cat => (
@@ -107,11 +142,12 @@ function App() {
   return (
     <BrowserRouter basename="/airbnb">
       <Routes>
-        <Route path="/" element={<GuideContent />} />
+        <Route path="/" element={<Hub />} />
+        <Route path="/hub" element={<Hub />} />
         <Route path="/map" element={<GuideContent />} />
         <Route path="/map/:category" element={<GuideContent />} />
-        {/* Redirect any other path to root */}
-        <Route path="*" element={<GuideContent />} />
+        <Route path="/list" element={<div style={{padding: '20px'}}>Em breve: Guia em Lista</div>} />
+        <Route path="*" element={<Hub />} />
       </Routes>
     </BrowserRouter>
   );

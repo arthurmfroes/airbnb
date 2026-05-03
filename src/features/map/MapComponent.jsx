@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, Tooltip, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -35,35 +35,40 @@ const createCustomPin = (category) => {
   });
 };
 
-function ChangeView({ center, active }) {
+function MapController({ selectedPlace, initialCoords, markersRef }) {
   const map = useMap();
+
   useEffect(() => {
-    if (active && map) map.setView(center, map.getZoom());
-  }, [map, center, active]);
+    if (selectedPlace) {
+      map.flyTo(selectedPlace.coords, map.getZoom(), {
+        animate: true,
+        duration: 0.8
+      });
+
+      const timeout = setTimeout(() => {
+        const marker = markersRef.current[selectedPlace.id];
+        if (marker) {
+          marker.openPopup();
+        }
+      }, 300);
+      return () => clearTimeout(timeout);
+    } else {
+      map.setView(initialCoords, map.getZoom());
+    }
+  }, [selectedPlace, map, initialCoords, markersRef]);
+
   return null;
 }
 
-const MapComponent = ({ activeCategory, activeTag, mode, toId }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [searchParams] = useSearchParams();
-  const baseUrl = import.meta.env.BASE_URL;
-  const initialZoom = window.innerWidth < 768 ? 16 : 17;
-  
+const RoutingEngine = ({ from, to, mode, onRouteInfo }) => {
+  const map = useMap();
   const [routeCoords, setRouteCoords] = useState([]);
 
-  const filteredPlaces = guideConfig.places.filter(place => {
-    const categoryMatch = !activeCategory || place.category === activeCategory;
-    const tagMatch = !activeTag || (place.tags && place.tags.includes(activeTag));
-    return categoryMatch && tagMatch;
-  });
-
-  const selectedPlace = toId ? guideConfig.places.find(p => p.id === parseInt(toId)) : null;
-
-  // Manual routing logic: Pure React state management
   useEffect(() => {
-    if (!selectedPlace) {
+    let isMounted = true;
+    if (!map || !from || !to) {
       setRouteCoords([]);
+      onRouteInfo?.(null);
       return;
     }
 
@@ -77,19 +82,61 @@ const MapComponent = ({ activeCategory, activeTag, mode, toId }) => {
     });
 
     const waypoints = [
-      L.Routing.waypoint(L.latLng(guideConfig.property.coords[0], guideConfig.property.coords[1])),
-      L.Routing.waypoint(L.latLng(selectedPlace.coords[0], selectedPlace.coords[1]))
+      L.Routing.waypoint(L.latLng(from[0], from[1])),
+      L.Routing.waypoint(L.latLng(to[0], to[1]))
     ];
 
     router.route(waypoints, (err, routes) => {
+      if (!isMounted) return;
       if (!err && routes && routes[0]) {
         setRouteCoords(routes[0].coordinates);
-        console.log(`[Routing] ${mode.toUpperCase()}: ${routes[0].summary.totalDistance.toFixed(1)}m em ${Math.round(routes[0].summary.totalTime/60)}min`);
+        onRouteInfo?.({
+          distance: routes[0].summary.totalDistance,
+          time: routes[0].summary.totalTime
+        });
       } else {
-        console.error("Routing Error:", err);
+        setRouteCoords([]);
+        onRouteInfo?.(null);
       }
     });
-  }, [selectedPlace, mode]);
+
+    return () => { isMounted = false; };
+  }, [map, from, to, mode, onRouteInfo]);
+
+  return routeCoords.length > 0 ? (
+    <>
+      <Polyline positions={routeCoords} pathOptions={{ color: '#484848', weight: 4, opacity: 0.3 }} />
+      <Polyline positions={routeCoords} pathOptions={{ color: '#484848', weight: 1.5, opacity: 0.5 }} />
+    </>
+  ) : null;
+};
+
+const MapComponent = ({ activeCategory, activeTag, mode, toId, onRouteInfo }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const baseUrl = import.meta.env.BASE_URL;
+  const initialZoom = window.innerWidth < 768 ? 16 : 17;
+  const markersRef = useRef({});
+  
+  const selectedPlace = useMemo(() => 
+    toId ? guideConfig.places.find(p => p.id === parseInt(toId)) : null
+  , [toId]);
+
+  const placesToRender = useMemo(() => {
+    // Filter by category/tag AND respect the 'display' property
+    let list = guideConfig.places.filter(place => {
+      const categoryMatch = !activeCategory || place.category === activeCategory;
+      const tagMatch = !activeTag || (place.tags && place.tags.includes(activeTag));
+      const displayMatch = place.display === 'both' || place.display === 'map';
+      return categoryMatch && tagMatch && displayMatch;
+    });
+    
+    if (selectedPlace && !list.find(p => p.id === selectedPlace.id)) {
+      list.push(selectedPlace);
+    }
+    return list;
+  }, [activeCategory, activeTag, selectedPlace]);
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
@@ -101,19 +148,14 @@ const MapComponent = ({ activeCategory, activeTag, mode, toId }) => {
       >
         <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
         
-        {/* Render the route using a native React-Leaflet component */}
-        {routeCoords.length > 0 && (
-          <>
-            <Polyline 
-              positions={routeCoords} 
-              pathOptions={{ color: '#484848', weight: 4, opacity: 0.3 }} 
-            />
-            <Polyline 
-              positions={routeCoords} 
-              pathOptions={{ color: '#484848', weight: 1.5, opacity: 0.5 }} 
-            />
-          </>
-        )}
+        <MapController selectedPlace={selectedPlace} initialCoords={guideConfig.property.coords} markersRef={markersRef} />
+
+        <RoutingEngine 
+          from={guideConfig.property.coords} 
+          to={selectedPlace?.coords} 
+          mode={mode} 
+          onRouteInfo={onRouteInfo}
+        />
 
         <Marker 
           position={guideConfig.property.coords} 
@@ -141,7 +183,7 @@ const MapComponent = ({ activeCategory, activeTag, mode, toId }) => {
           </Popup>
         </Marker>
 
-        {filteredPlaces.map((place, index) => {
+        {placesToRender.map((place, index) => {
           const style = CATEGORY_STYLES[place.category] || CATEGORY_STYLES.utilitarios;
           const IconComponent = LucideIcons[style.icon];
           const isSelected = selectedPlace?.id === place.id;
@@ -152,6 +194,7 @@ const MapComponent = ({ activeCategory, activeTag, mode, toId }) => {
               key={place.id} 
               position={place.coords} 
               icon={createCustomPin(place.category)}
+              ref={el => { if (el) markersRef.current[place.id] = el; }}
               eventHandlers={{ 
                 click: () => {
                   const params = new URLSearchParams(searchParams);
@@ -160,9 +203,15 @@ const MapComponent = ({ activeCategory, activeTag, mode, toId }) => {
                 }
               }}
             >
-              <Tooltip permanent direction={direction} offset={[0, direction === 'top' ? -10 : 10]} interactive={true} className={`category-label ${isSelected ? 'selected' : ''}`}
+              <Tooltip 
+                permanent 
+                direction={direction} 
+                offset={[0, direction === 'top' ? -10 : 10]} 
+                interactive={true} 
+                className={`category-label ${isSelected ? 'selected' : ''}`}
                 eventHandlers={{
-                  click: () => {
+                  click: (e) => {
+                    L.DomEvent.stopPropagation(e);
                     const params = new URLSearchParams(searchParams);
                     params.set('to', place.id);
                     navigate(`/map/${activeCategory || ''}?${params.toString()}`);
@@ -199,7 +248,6 @@ const MapComponent = ({ activeCategory, activeTag, mode, toId }) => {
             </Marker>
           );
         })}
-        {!selectedPlace && <ChangeView center={guideConfig.property.coords} active={!selectedPlace} />}
       </MapContainer>
     </div>
   );
