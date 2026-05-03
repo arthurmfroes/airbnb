@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useParams, useSearchParams, useLocation } from 'react-router-dom';
 import MapComponent from './features/map/MapComponent';
 import Hub from './app/Hub';
+import ListView from './app/ListView';
 import { guideConfig } from './data/guideConfig';
 import * as LucideIcons from 'lucide-react';
 import './App.css';
@@ -146,7 +147,7 @@ function App() {
         <Route path="/hub" element={<Hub />} />
         <Route path="/map" element={<GuideContent />} />
         <Route path="/map/:category" element={<GuideContent />} />
-        <Route path="/list" element={<div style={{padding: '20px'}}>Em breve: Guia em Lista</div>} />
+        <Route path="/list" element={<ListView />} />
         <Route path="*" element={<Hub />} />
       </Routes>
     </BrowserRouter>

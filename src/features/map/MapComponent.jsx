@@ -6,6 +6,7 @@ import 'leaflet-routing-machine';
 import { guideConfig } from '../../data/guideConfig';
 import * as LucideIcons from 'lucide-react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
+import { ActionButton } from '../../components/ActionButton';
 
 // Fix for default marker icons
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
@@ -124,7 +125,6 @@ const MapComponent = ({ activeCategory, activeTag, mode, toId, onRouteInfo }) =>
   , [toId]);
 
   const placesToRender = useMemo(() => {
-    // Filter by category/tag AND respect the 'display' property
     let list = guideConfig.places.filter(place => {
       const categoryMatch = !activeCategory || place.category === activeCategory;
       const tagMatch = !activeTag || (place.tags && place.tags.includes(activeTag));
@@ -203,12 +203,7 @@ const MapComponent = ({ activeCategory, activeTag, mode, toId, onRouteInfo }) =>
                 }
               }}
             >
-              <Tooltip 
-                permanent 
-                direction={direction} 
-                offset={[0, direction === 'top' ? -10 : 10]} 
-                interactive={true} 
-                className={`category-label ${isSelected ? 'selected' : ''}`}
+              <Tooltip permanent direction={direction} offset={[0, direction === 'top' ? -10 : 10]} interactive={true} className={`category-label ${isSelected ? 'selected' : ''}`}
                 eventHandlers={{
                   click: (e) => {
                     L.DomEvent.stopPropagation(e);
@@ -230,17 +225,12 @@ const MapComponent = ({ activeCategory, activeTag, mode, toId, onRouteInfo }) =>
                     <div className="popup-title">{place.name}</div>
                     <div className="popup-description">{place.description}</div>
                     <div className="popup-actions">
-                      <div className="popup-actions-title">Abrir em</div>
-                      <div className="popup-actions-grid">
-                        <a href={place.links.google} target="_blank" rel="noopener noreferrer" className="btn-app">
-                          <img src={`${baseUrl}assets/icons/google-maps.png`} alt="Google" />
-                          Google
-                        </a>
-                        <a href={place.links.apple} target="_blank" rel="noopener noreferrer" className="btn-app">
-                          <img src={`${baseUrl}assets/icons/apple-maps.png`} alt="Apple" />
-                          Apple
-                        </a>
-                      </div>
+                      <ActionButton 
+                        type={place.links.type} 
+                        url={place.links.url} 
+                        label={place.links.label} 
+                        baseUrl={baseUrl} 
+                      />
                     </div>
                   </div>
                 </div>

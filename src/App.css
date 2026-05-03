@@ -1,3 +1,7 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 #root {
   width: 100%;
   height: 100vh;
@@ -8,7 +12,7 @@
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100dvh;
+  height: 100dvh; /* Dynamic viewport height for mobile browser bars */
   width: 100%;
   overflow: hidden;
 }
@@ -307,40 +311,34 @@
   margin-bottom: 12px;
 }
 
-.popup-actions-title {
-  font-size: 11px;
-  font-weight: 700;
-  color: #717171;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
-}
-
-.popup-actions-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.btn-app {
+/* Google Maps Primary Button */
+.btn-app-primary {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 10px;
   background: white;
   color: #222;
   text-decoration: none;
-  padding: 8px;
+  padding: 12px;
   border-radius: 12px;
-  font-weight: 600;
-  font-size: 11px;
+  font-weight: 700;
+  font-size: 13px;
   border: 1px solid #ddd;
+  transition: all 0.2s;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.btn-app img {
-  width: 24px;
-  height: 24px;
+.btn-app-primary:hover {
+  border-color: #222;
+  background: #f7f7f7;
+  transform: translateY(-1px);
+}
+
+.btn-app-primary img {
+  width: 20px;
+  height: 20px;
 }
 
 .category-label {
@@ -359,6 +357,7 @@
   transform: translateY(-5px);
   cursor: pointer !important;
   pointer-events: auto !important;
+  z-index: 1000;
 }
 
 .category-label::before {
@@ -380,6 +379,10 @@
 }
 
 .property-legend::before {
+  display: none !important;
+}
+
+.leaflet-routing-container {
   display: none !important;
 }
 
@@ -416,8 +419,9 @@
 
 .hub-header-content h1 {
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  color: white !important;
 }
 
 .hub-header-content p {
@@ -496,4 +500,132 @@
   font-size: 0.9rem;
   letter-spacing: 1px;
   text-transform: uppercase;
+}
+
+/* List View Styles */
+.list-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #f7f7f7;
+  overflow-y: auto;
+}
+
+.list-map-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  color: #222;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.list-map-btn:hover {
+  border-color: #222;
+  background: #f7f7f7;
+}
+
+.list-subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #717171;
+  font-weight: 500;
+}
+
+.list-content {
+  padding: 24px 20px;
+}
+
+.list-section {
+  margin-bottom: 32px;
+}
+
+.list-category-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.list-category-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #222;
+}
+
+.list-subcategory-group {
+  margin-bottom: 24px;
+}
+
+.list-subcategory-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #717171;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  padding-left: 4px;
+}
+
+.list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.place-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.place-card-image {
+  position: relative;
+  height: 160px;
+  width: 100%;
+}
+
+.place-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.place-card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.place-card-title {
+  margin: 0 0 6px 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #222;
+}
+
+.place-card-description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #717171;
+  line-height: 1.4;
+  flex: 1;
+}
+
+@media (max-width: 480px) {
+  .list-grid {
+    grid-template-columns: 1fr;
+  }
 }
