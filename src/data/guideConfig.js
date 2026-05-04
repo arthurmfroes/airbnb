@@ -186,7 +186,7 @@ export const guideConfig = {
       category: "restaurantes",
       subcategory: "Restaurantes",
       display: "both",
-      coords: [-29.69231540815999, -53.80286285978992],
+      coords: [-29.692371334922633, -53.802819949200554],
       description: "Comida excelente, buffet por Kg e ambiente familiar.",
       links: {
         url: "https://maps.app.goo.gl/xeK14BFrufPwpZYv8",
