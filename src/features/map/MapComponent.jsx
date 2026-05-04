@@ -146,6 +146,7 @@ const MapComponent = ({ activeCategory, activeTag, mode, toId, onRouteInfo }) =>
         zoom={initialZoom} 
         style={{ height: '100%', width: '100%' }}
         attributionControl={false}
+        scrollWheelZoom={true}
       >
         <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
         

@@ -1,7 +1,7 @@
 export const guideConfig = {
   property: {
     name: "Residencial Vivant",
-    coords: [-29.6887543, -53.8140705],
+    coords: [-29.687859534671475, -53.80385668340325],
     address: "R. Riachuelo, 341 - Centro, Santa Maria - RS",
   },
   categories: [
@@ -17,7 +17,7 @@ export const guideConfig = {
       category: "turismo",
       subcategory: "Shoppings",
       display: "both",
-      coords: [-29.7071677, -53.8295225],
+      coords: [-29.70691609370838, -53.829447398148005],
       description: "Maior shopping da cidade, com ampla variedade de lojas, praça de alimentação, cinema e opções de lazer.",
       links: {
         url: "https://maps.app.goo.gl/nBPycYUkBqZmYy67A",
@@ -30,7 +30,7 @@ export const guideConfig = {
       category: "turismo",
       subcategory: "Shoppings",
       display: "both",
-      coords: [-29.6901149, -53.7949094],
+      coords: [-29.689956454402807, -53.794877213492],
       description: "Shopping central e de fácil acesso, com boas opções de restaurantes, lojas e cinema.",
       links: {
         url: "https://maps.app.goo.gl/top8ansyk9xsddfa7",
@@ -43,7 +43,7 @@ export const guideConfig = {
       category: "turismo",
       subcategory: "Passeios",
       display: "both",
-      coords: [-29.686582, -53.8081157],
+      coords: [-29.68641422816806, -53.80806205582],
       description: "Principal área comercial do Centro, ideal para passear, fazer compras e conhecer o movimento local.",
       links: {
         url: "https://maps.app.goo.gl/aYs8Uegjw9Y8bGYJ7",
@@ -56,7 +56,7 @@ export const guideConfig = {
       category: "turismo",
       subcategory: "Passeios",
       display: "both",
-      coords: [-29.7044606, -53.8441253],
+      coords: [-29.715493679284585, -53.71331933151056],
       description: "Uma das maiores universidades do país, com áreas verdes e importância histórica e cultural.",
       links: {
         url: "https://maps.app.goo.gl/xiKiaXrr969MwRrj8",
@@ -69,7 +69,7 @@ export const guideConfig = {
       category: "turismo",
       subcategory: "Passeios",
       display: "both",
-      coords: [-29.6783996, -53.80866],
+      coords: [-29.67814792166149, -53.808659999999996],
       description: "Conjunto histórico com arquitetura preservada, antiga vila ferroviária e cartão-postal da cidade.",
       links: {
         url: "https://maps.app.goo.gl/XEzYfSod4CBhvoiw5",
@@ -82,7 +82,7 @@ export const guideConfig = {
       category: "saude",
       subcategory: "Farmácias",
       display: "both",
-      coords: [-29.6894625, -53.8054107],
+      coords: [-29.690305991067845, -53.80491180912608],
       description: "Farmácia próxima com ampla rede de atendimento.",
       links: {
         url: "https://maps.app.goo.gl/6c7LgMVpUXTax16e7",
@@ -95,7 +95,7 @@ export const guideConfig = {
       category: "saude",
       subcategory: "Farmácias",
       display: "both",
-      coords: [-29.6908314, -53.8073758],
+      coords: [-29.690714896739426, -53.80626536547419],
       description: "Rede de farmácias tradicional na região.",
       links: {
         url: "https://maps.app.goo.gl/FCUrmoPbuZxiAGPL7",
@@ -108,7 +108,7 @@ export const guideConfig = {
       category: "utilitarios",
       subcategory: "Mercados",
       display: "both",
-      coords: [-29.6904508, -53.8047753],
+      coords: [-29.689947503039445, -53.80406719682412],
       description: "Conveniência e mercado aberto 24h.",
       links: {
         url: "https://maps.app.goo.gl/yV2ULV6ZJZiGMQa59",
@@ -121,7 +121,7 @@ export const guideConfig = {
       category: "utilitarios",
       subcategory: "Mercados",
       display: "both",
-      coords: [-29.6868029, -53.8057713],
+      coords: [-29.686709693666113, -53.80471450965418],
       description: "Supermercado localizado na mesma rua do prédio.",
       links: {
         url: "https://maps.app.goo.gl/umyYaYCC35ZKyxXw7",
@@ -134,7 +134,7 @@ export const guideConfig = {
       category: "utilitarios",
       subcategory: "Academias",
       display: "both",
-      coords: [-29.6843712, -53.8073926],
+      coords: [-29.68417546186344, -53.807414057671984],
       description: "Bom maquinário e diárias com valor acessível.",
       links: {
         url: "https://maps.app.goo.gl/gcEvjyb8oMhkMc4E6",
@@ -147,7 +147,7 @@ export const guideConfig = {
       category: "utilitarios",
       subcategory: "Lavanderias",
       display: "both",
-      coords: [-29.6908842, -53.8088779],
+      coords: [-29.690688474547915, -53.806624844440385],
       description: "Aberta 24h e self service.",
       links: {
         url: "https://maps.app.goo.gl/M3oqvtFnYbJUa2CQ9",
@@ -160,7 +160,7 @@ export const guideConfig = {
       category: "utilitarios",
       subcategory: "Lavanderias",
       display: "both",
-      coords: [-29.6915077, -53.8031182],
+      coords: [-29.691489059612824, -53.80285534351805],
       description: "Aberta 24h e self service.",
       links: {
         url: "https://maps.app.goo.gl/DjhgTecR7nC8GutS9",
@@ -173,7 +173,7 @@ export const guideConfig = {
       category: "restaurantes",
       subcategory: "Restaurantes",
       display: "both",
-      coords: [-29.6883325,-53.8150589],
+      coords: [-29.6880812465313, -53.80481284417999],
       description: "Opção prática para o dia a dia.",
       links: {
         url: "https://maps.app.goo.gl/7DqreJiykYJEtp428",
@@ -186,10 +186,10 @@ export const guideConfig = {
       category: "restaurantes",
       subcategory: "Restaurantes",
       display: "both",
-      coords: [-29.6876366, -53.805073],
+      coords: [-29.69231540815999, -53.80286285978992],
       description: "Comida excelente, buffet por Kg e ambiente familiar.",
       links: {
-        url: "https://maps.app.goo.gl/pEDayuMBcAzj4Ua79",
+        url: "https://maps.app.goo.gl/xeK14BFrufPwpZYv8",
         type: "google"
       }
     },
@@ -199,7 +199,7 @@ export const guideConfig = {
       category: "restaurantes",
       subcategory: "Restaurante e bar",
       display: "both",
-      coords: [-29.6850798, -53.8020511],
+      coords: [-29.684837459197496, -53.80199745582001],
       description: "Restaurante e bar moderno, ótimo para jantar ou drinks.",
       links: {
         url: "https://maps.app.goo.gl/d99LWKLExYtLBuUTA",
@@ -212,7 +212,7 @@ export const guideConfig = {
       category: "restaurantes",
       subcategory: "Cafés & Lanches",
       display: "both",
-      coords: [-29.6900323, -53.8081939],
+      coords: [-29.689808611841602, -53.808172442327994],
       description: "Cafeteria de excelente qualidade. Ambiente leve e moderno.",
       links: {
         url: "https://maps.app.goo.gl/ZbZJdfovEingYSmE9",
@@ -225,7 +225,7 @@ export const guideConfig = {
       category: "restaurantes",
       subcategory: "Xis",
       display: "both",
-      coords: [-29.6889157, -53.7996701],
+      coords: [-29.688775893405943, -53.79960572698401],
       description: "Boa opção para provar o tradicional xis de Santa Maria.",
       links: {
         url: "https://maps.app.goo.gl/JpCn7XjNfEPS2diC9",
@@ -251,7 +251,7 @@ export const guideConfig = {
       category: "restaurantes",
       subcategory: "Cafés & Lanches",
       display: "both",
-      coords: [-29.6887543, -53.8114956],
+      coords: [-29.689388088471514, -53.80492955236914],
       description: "Padaria com boas opções de tortas e lanches.",
       links: {
         url: "https://maps.app.goo.gl/64k3Z4bf4NHwK9vM6",
@@ -264,7 +264,7 @@ export const guideConfig = {
       category: "saude",
       subcategory: "Hospitais e pronto socorro",
       display: "both",
-      coords: [-29.691847,-53.8164295],
+      coords: [-29.691651676424023, -53.80617271534398],
       description: "Principal hospital da cidade (HCAA). Atendimento de urgência e emergência.",
       links: {
         url: "https://maps.app.goo.gl/WSufMEBE8BPwoUe99",
